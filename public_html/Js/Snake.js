@@ -5,6 +5,7 @@ var screenheight;
 var screenwidth;
 
 function gameinitialize() {
+    var canvas = document.getElementById("game-screen");
     
 }
 function gameloop () {
