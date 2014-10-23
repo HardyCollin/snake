@@ -91,6 +91,7 @@ function snakeUpdate() {
         snakeHeadY--;
     }
     checkFoodCollisions(snakeHeadX, snakeHeadY);
+    checkWallCollisions(snakeHeadX, snakeHeadY);
     
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -121,7 +122,9 @@ function setFoodPosition() {
     
     food.x = Math.floor(randomX / snakeSize);
     food.y = Math.floor(randomY / snakeSize);
+
 }
+
 /*-------------------------------------------------------------------------------------------------------------------------------
  * Input Functions
  *---------------------------------------------------------------------------------------------------------------------
@@ -154,5 +157,15 @@ function keyboardHandler(event) {
             y: 0
          });
          snakeLength++;
+         setFoodPosition();
      }
+ }
+ function checkWallCollisions(snakeHeadX, snakeHeadY) {
+     if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
+         console.log("wall Collision");
+     }
+     if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
+         console.log("wall Collision");
+     }
+     
  }
