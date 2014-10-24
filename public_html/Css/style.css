@@ -5,3 +5,8 @@ body{
 #game-screen{
     display: block;
 }
+
+#gameover{
+    position: absolute;
+    visibility: hidden;
+}
