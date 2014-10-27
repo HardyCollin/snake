@@ -24,6 +24,7 @@ snakeInitialize();
 foodInitialize();
 setInterval(gameLoop, 1000 / 30);
 
+
 /*--------------------------------------------------------------------------------------------------------
  * Game functions
  * -------------------------------------------------------------------------------------------------------
@@ -43,6 +44,7 @@ function gameInitialize() {
     gameOverMenu = document.getElementById("gameOver");
     
     setState("PLAY");
+    setState("GAME OVER");
 }
 function gameLoop() {
     gameDraw();
@@ -100,6 +102,7 @@ function snakeUpdate() {
     }
     checkFoodCollisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -138,7 +141,7 @@ function setFoodPosition() {
  *---------------------------------------------------------------------------------------------------------------------
  */
 function keyboardHandler(event) {
-    console.log(event);
+    /*console.log(event);*/
 
     if (event.keyCode == "39" && snakeDirection != "left") {
         snakeDirection = "right";
@@ -169,13 +172,10 @@ function checkFoodCollisions(snakeHeadX, snakeHeadY) {
     }
 }
 function checkWallCollisions(snakeHeadX, snakeHeadY) {
-    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
+    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0 || snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
             setState("GAME OVER");
+            console.log ("WallCollisions");
     }
-    if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
-            setState("GAME OVER");
-    }
-
 }
 /*-----------------------------------------------------------------------------------------------
  * game state handling
@@ -189,5 +189,5 @@ function displayMenu(menu) {
 }
 function showMenu(state) {
     if (state == "GAME OVER")
-        displayMenu(gameOverMenu)
+        displayMenu(gameOverMenu);
 }
