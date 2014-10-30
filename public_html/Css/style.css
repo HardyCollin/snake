@@ -6,7 +6,30 @@ body{
     display: block;
 }
 
-#gameover{
+#gameOver{
     position: absolute;
     visibility: hidden;
+}
+h1 {  
+    font-family: 'Permanent Marker', cursive;
+    color: orange;
+    text-align: center;
+}
+h3 {
+    font-family: 'Permanent Marker', cursive;
+    color: green;
+    text-align: center;
+}
+.title {
+ font-size: 90px;
+ margin-bottom: 0px;
+}
+
+#restartButton {
+    border: 2px solid orange;
+    border-radius: 10px;
+}
+
+#restartButton:hover {
+    background-color: orange;
 }
