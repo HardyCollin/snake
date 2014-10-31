@@ -15,6 +15,9 @@ var screenWidth;
 var screenHeight;
 var gameState;
 var gameOverMenu;
+var restartButton;
+var PlayHUD;
+var scoreboard;
 /*--------------------------------------------------------------------------------------------------------
  * Executing game code]
  * -------------------------------------------------------------------------------------------------------
@@ -42,11 +45,18 @@ function gameInitialize() {
     document.addEventListener("keydown", keyboardHandler);
     
     gameOverMenu = document.getElementById("gameOver");
+    centerMenuPosition (gameOverMenu);
     
+    restartButton = document.getElementById("restartButton");
+    restartButton.addEventListener("click", gameRestart);
+    
+    PlayHUD = document.getElementById("PlayHUD");
+    scoreboard = document.getElementById("scoreboard");
     setState("PLAY");
 }
 function gameLoop() {
     gameDraw();
+    drawScoreboard();
     if (gameState == "PLAY") {
         snakeUpdate();
         snakeDraw();
@@ -56,6 +66,12 @@ function gameLoop() {
 function gameDraw() {
     context.fillStyle = "rgb(96, 185, 235)";
     context.fillRect(0, 0, screenWidth, screenHeight);
+}
+function gameRestart() {
+    snakeInitialize();
+    foodInitialize();
+    hideMenu(gameOverMenu);
+    setState("PLAY");
 }
 
 /*--------------------------------------------------------------------------------------------------------
@@ -101,6 +117,7 @@ function snakeUpdate() {
     }
     checkFoodCollisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    checkSnakeCollisions(snakeHeadX, snakeHeadY);
     
 
     var snakeTail = snake.pop();
@@ -175,6 +192,14 @@ function checkWallCollisions(snakeHeadX, snakeHeadY) {
             setState("GAME OVER");
     }
 }
+function checkSnakeCollisions(snakeHeadX, snakeHeadY) {
+    for (var index = 1; index < snake.length; index++) {
+        if (snakeHeadX == snake[index].x && snakeHeadY == snake[index].y) {
+            setState("GAME OVER");
+            return;
+        }
+    }
+}
 /*-----------------------------------------------------------------------------------------------
  * game state handling
  * --------------------------------------------------------------------------------------------
@@ -183,12 +208,30 @@ function setState(state) {
     gameState = state;
     showMenu(state);
 }
+
+/*-------------------------------------------------------------------------------------------------------
+ * Menu Functions
+ * ------------------------------------------------------------------------------------------------------
+ */
 function displayMenu(menu) {
     menu.style.visibility = "visible";
-
 }
+function hideMenu(menu) {
+    menu.style.visibility = "hidden";
+}
+
 function showMenu(state) {
     if (state == "GAME OVER"){
         displayMenu(gameOverMenu);
     }
+    else if (state == "PLAY") {
+        displayMenu(PlayHUD);
+    }
+}
+function centerMenuPosition(menu) {
+   menu.style.top = (screenHeight / 2) - (menu.offsetHeight / 2) + "px";
+   menu.style.left = (screenWidth / 2) - (menu.offsetWidth / 2) + "px";
+}
+function drawScoreboard() {
+    scoreboard.innerHTML = "Length: " + snake.length;
 }
